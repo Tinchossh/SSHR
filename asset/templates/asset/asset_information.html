@@ -1,0 +1,83 @@
+{% load i18n %}
+<div class="oh-modal__section-head">{% trans "Asset Information" %}</div>
+<div class="row">
+  <div class="col-12 col-md-12 col-lg-12">
+    <div class="oh-modal__group mt-2">
+      <label class="oh-modal__label oh-text--small">{% trans "Asset Name" %}</label>
+      <label class="oh-modal__value">{{asset.asset_name}}</label>
+    </div>
+  </div>
+
+  <div class="col-12 col-md-12 col-lg-12 mt-3">
+    <div class="oh-modal__group">
+      <label class="oh-modal__label oh-text--small">{% trans "Description" %}</label>
+      <div class="oh-modal__description">
+        {{asset.asset_description}}
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-md-12 col-lg-6 mt-3">
+    <div class="oh-modal__group">
+      <label class="oh-modal__label oh-text--small">{% trans "Tracking Id" %}</label>
+      <label class="oh-modal__value">{{asset.asset_tracking_id}}</label>
+    </div>
+  </div>
+  <div class="col-12 col-md-12 col-lg-6 mt-3">
+    <div class="oh-modal__group">
+      <label class="oh-modal__label oh-text--small">{% trans "Purchase Date" %}</label>
+      <label class="oh-modal__value dateformat_changer">{{asset.asset_purchase_date}}</label>
+    </div>
+  </div>
+
+  <div class="col-12 col-md-12 col-lg-6 mt-3">
+    <div class="oh-modal__group">
+      <label class="oh-modal__label oh-text--small">{% trans "Cost" %}</label>
+      <label class="oh-modal__value">{{asset.asset_purchase_cost}}</label>
+    </div>
+  </div>
+
+  <div class="col-12 col-md-12 col-lg-6 mt-3">
+    <div class="oh-modal__group">
+      <label class="oh-modal__label oh-text--small">{% trans "Status" %}</label>
+      <label class="oh-modal__value">{{asset.get_asset_status_display}}</label>
+    </div>
+  </div>
+
+  <div class="col-12 col-md-12 col-lg-6 mt-3">
+    <div class="oh-modal__group">
+      <label class="oh-modal__label oh-text--small">{% trans "Batch No" %}</label>
+      <label class="oh-modal__value">{{asset.asset_lot_number_id}}</label>
+    </div>
+  </div>
+  <div class="col-12 col-md-12 col-lg-6 mt-3">
+    <div class="oh-modal__group">
+      <label class="oh-modal__label oh-text--small">{% trans "Category" %}</label>
+      <label class="oh-modal__value">{{asset.asset_category_id}}</label>
+    </div>
+  </div>
+
+  {% if asset.asset_report.all %}
+    <div class="oh-kanban__card-footer mt-3 bg-light" style="position:relative;padding-top:0">
+        <span
+            class="mb-2" style="font-weight:600;"
+            >{% trans "Reports" %}</span
+        >
+        <button onclick="event.stopPropagation();$(this).siblings('.oh-kanban__card-content').toggleClass('oh-kanban__card-content--hide')" class="oh-kanban__card-body-collapse oh-kanban__card-collapse--down" aria-label="Toggle Options" title="{% trans 'Assignees' %}"></button>
+        <div class="oh-kanban__card-content oh-kanban__card-content--hide mt-3">
+          {% for report in asset.asset_report.all %}
+            <li class="pt-2 ">                
+              {{report.title}}
+              <div class="d-flex m-2">
+                {% for doc in report.documents.all %}
+                <a href="{{doc.file.url}}" rel="noopener noreferrer" target="_blank"><span class="oh-file-icon oh-file-icon--pdf" title="{{doc}}" ></span></a>
+              {% endfor %}
+              </div>
+
+            </li>
+          {% endfor %}
+        </div>                                    
+    </div>
+  {% endif %}
+
+</div>

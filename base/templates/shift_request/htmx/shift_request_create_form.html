@@ -1,0 +1,43 @@
+{% load i18n %} {% load static %} {% if messages %}
+<div class="oh-wrapper">
+  {% for message in messages %}
+  <div class="oh-alert-container">
+    <div class="oh-alert oh-alert--animated {{message.tags}}">
+      {{ message }}
+    </div>
+  </div>
+  {% endfor %}
+  <script>
+    setTimeout(function () {
+      $(".oh-modal__close").click();
+    }, 1000);
+  </script>
+</div>
+{% endif %}
+
+<div class="oh-modal__dialog-body" style="padding: 0;">
+  <form
+    hx-post="{% url 'shift-request' %}"
+    hx-target="#shiftRequestTargetModal"
+    id="addForm"
+  >
+    {{form.as_p}}
+  </form>
+</div>
+
+<script>
+  function toggleFunctionShiftRequestForm() {
+    if ($("#id_is_permanent_shift").is(":checked")) {
+      $("#id_requested_till").parent().hide();
+    } else {
+      $("#id_requested_till").parent().show();
+    }
+  }
+  toggleFunctionShiftRequestForm();
+  $(document).ready(function () {
+    $("[type=checkbox]").change(function (e) {
+      e.preventDefault();
+      toggleFunctionShiftRequestForm();
+    });
+  });
+</script>
